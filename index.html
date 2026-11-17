@@ -116,6 +116,7 @@ section{padding:56px 0}
 .job:hover .chips li{background:var(--accent);color:var(--accent-ink)}
 .job:hover .chips li:nth-child(2){transition-delay:.04s}.job:hover .chips li:nth-child(3){transition-delay:.08s}.job:hover .chips li:nth-child(4){transition-delay:.12s}.job:hover .chips li:nth-child(5){transition-delay:.16s}
 .timeline .job.reveal:nth-child(2){transition-delay:.15s}
+.timeline .job.reveal:nth-child(3){transition-delay:.3s}
 .job .when{color:var(--muted);font-size:14px;font-weight:500}
 .job .when strong{display:block;color:var(--text);font-family:var(--font-head);font-size:18px;margin-bottom:2px}
 .job h3{font-size:20px;margin-bottom:10px}
@@ -167,7 +168,14 @@ section{padding:56px 0}
 
 /* Stack */
 .stack{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.stack div{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px}
+.stack div{position:relative;overflow:hidden;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease}
+.stack div::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .45s ease}
+.stack div:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:color-mix(in srgb,var(--accent) 35%,var(--line))}
+.stack div:hover::before{transform:scaleX(1)}
+.stack .chips li{transition:background .25s ease,color .25s ease}
+.stack div:hover .chips li{background:var(--accent);color:var(--accent-ink)}
+.stack div:hover .chips li:nth-child(2){transition-delay:.03s}.stack div:hover .chips li:nth-child(3){transition-delay:.06s}.stack div:hover .chips li:nth-child(4){transition-delay:.09s}.stack div:hover .chips li:nth-child(5){transition-delay:.12s}.stack div:hover .chips li:nth-child(6){transition-delay:.15s}.stack div:hover .chips li:nth-child(n+7){transition-delay:.18s}
+.stack div.reveal:nth-child(2),.stack div.reveal:nth-child(5){transition-delay:.1s}.stack div.reveal:nth-child(3),.stack div.reveal:nth-child(6){transition-delay:.2s}
 .stack h3{font-size:17px;margin-bottom:12px}
 @media (max-width:860px){.stack{grid-template-columns:1fr 1fr}}
 @media (max-width:560px){.stack{grid-template-columns:1fr}}
@@ -193,7 +201,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
 /* Reveal */
 .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
 .reveal.in{opacity:1;transform:none}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}.project,.btn,.shot img,.btn-more svg,.job,.job::before,.job .chips li{transition:none!important}.projects-more .project{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}.project,.btn,.shot img,.btn-more svg,.job,.job::before,.job .chips li,.stack div,.stack div::before,.stack .chips li{transition:none!important}.projects-more .project{opacity:1;transform:none}}
 </style>
 </head>
 <body>
@@ -305,6 +313,18 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
               <li data-i18n="j2b2">Reportes de rendimiento con SQL y Google Data Studio para la toma de decisiones.</li>
             </ul>
             <ul class="chips" aria-label="Tecnologías"><li>SQL</li><li>Google Data Studio</li><li>Excel</li></ul>
+          </div>
+        </article>
+        <article class="job reveal">
+          <div class="when"><strong>Altos Verdes</strong><span>2018 – 2020</span></div>
+          <div>
+            <h3 data-i18n="j3r">Asistente Administrativo</h3>
+            <ul>
+              <li data-i18n="j3b1">Tareas administrativas y de soporte a la gestión diaria de una empresa del sector agrícola.</li>
+              <li data-i18n="j3b2">Organización y control de registros, actualización de documentación y seguimiento de información interna.</li>
+              <li data-i18n="j3b3">Elaboración de reportes y colaboración en la organización de procesos administrativos, con la información ordenada y accesible para el equipo.</li>
+            </ul>
+            <ul class="chips" aria-label="Habilidades"><li data-i18n="j3c1">Gestión administrativa</li><li data-i18n="j3c2">Reportes</li><li data-i18n="j3c3">Documentación</li></ul>
           </div>
         </article>
       </div>
@@ -479,6 +499,7 @@ const EN = {
   j1b3:"Reusable component system (buttons, status chips, modals, dialogs) used across the whole product.",
   j1b4:"UI integration with the backend in a layered architecture, together with the backend and hardware team.",
   j2r:"Commercial Data Processor", j2b1:"Automated data-loading processes on delivery platforms (Rappi, PedidosYa, Uber Eats).", j2b2:"Performance reports with SQL and Google Data Studio to support decisions.",
+  j3r:"Administrative Assistant", j3b1:"Administrative tasks and day-to-day management support for an agricultural company.", j3b2:"Organized and controlled records, updated documentation and tracked internal information.", j3b3:"Prepared reports and helped organize administrative processes, keeping information orderly and accessible for the team.", j3c1:"Administration", j3c2:"Reporting", j3c3:"Documentation",
   proj_eye:"Projects", proj_h:"What I've built", proj_p:"A selection of personal and academic projects, with source code on GitHub.",
   p0tag:"React project", p0d:"Appointment system for medical practices: daily dashboard, filterable agenda, patient records with history and business-rule validation, such as overlapping appointments, opening hours and suggested free slots.",
   p1tag:"Graduation project", p1d:"Personal finance app for young people starting to live on their own. Sign-up and login, expense and income tracking, category budgets, charts and a payment calendar, with real-time data.",
