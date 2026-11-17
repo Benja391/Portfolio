@@ -119,24 +119,42 @@ section{padding:56px 0}
 .chips li{font-size:13px;font-weight:500;padding:4px 10px;border-radius:999px;background:var(--accent-soft);color:var(--text)}
 
 /* Projects */
-.projects{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
-.project{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;transition:transform .2s ease,box-shadow .2s ease}
-.project:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
-.project.featured{grid-column:1/-1;display:grid;grid-template-columns:1.25fr 1fr}
-.shot{aspect-ratio:2/1;background:var(--surface-2);overflow:hidden;border-bottom:1px solid var(--line)}
-.featured .shot{aspect-ratio:auto;border-bottom:0;border-right:1px solid var(--line)}
-.shot img{width:100%;height:100%;object-fit:cover;object-position:top}
-.shot.code{display:flex;align-items:center;justify-content:center;font:600 14px/1.7 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--muted);padding:24px}
+.projects{display:grid;gap:20px}
+.project{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:grid;grid-template-columns:1.15fr 1fr;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+.project:nth-child(even){grid-template-columns:1fr 1.15fr}
+.project:nth-child(even) .shot{order:2;border-right:0;border-left:1px solid var(--line)}
+.project:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:color-mix(in srgb,var(--accent) 35%,var(--line))}
+.shot{position:relative;min-height:260px;background:var(--surface-2);overflow:hidden;border-right:1px solid var(--line)}
+.shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform .6s ease}
+.project:hover .shot img{transform:scale(1.04)}
+.shot.code{display:flex;align-items:center;justify-content:center;font:600 15px/1.8 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--muted);padding:28px}
 .shot.code pre{margin:0;white-space:pre-wrap}
 .shot.code b{color:var(--accent);font-weight:600}
-.project .body{padding:22px 24px 24px;display:flex;flex-direction:column;gap:12px;flex:1}
-.project h3{font-size:21px}
+.project .body{padding:28px 30px;display:flex;flex-direction:column;gap:14px}
+.project h3{font-size:24px}
 .tag{display:inline-block;font-size:12px;font-weight:600;color:var(--ok);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
 .project p{margin:0;color:var(--muted)}
-.project .links{display:flex;gap:10px;margin-top:auto;padding-top:6px;flex-wrap:wrap}
-.project .links a{font-weight:600;font-size:15px;color:var(--accent);text-decoration:none;display:inline-flex;align-items:center;gap:6px;min-height:32px}
+.project .links{display:flex;gap:10px 18px;margin-top:auto;padding-top:6px;flex-wrap:wrap;align-items:center}
+.project .links a{font-weight:600;font-size:15px;color:var(--accent);text-decoration:none;display:inline-flex;align-items:center;gap:6px;min-height:40px}
 .project .links a:hover{text-decoration:underline}
-@media (max-width:860px){.projects{grid-template-columns:1fr}.project.featured{grid-template-columns:1fr}.featured .shot{border-right:0;border-bottom:1px solid var(--line);aspect-ratio:16/10}}
+.project .links .btn-demo{background:var(--accent);color:var(--accent-ink);padding:0 16px;border-radius:10px}
+.project .links .btn-demo:hover{text-decoration:none;filter:brightness(1.08)}
+.projects-more{margin-top:20px}
+.projects-more .project{opacity:0;transform:translateY(24px)}
+.projects-more.open .project{opacity:1;transform:none;transition:opacity .5s ease calc(var(--i) * 110ms),transform .5s ease calc(var(--i) * 110ms),box-shadow .25s ease,border-color .25s ease}
+.projects-more.open .project:hover{transform:translateY(-4px);transition-delay:0s}
+.more-wrap{display:flex;justify-content:center;margin-top:28px}
+.btn-more{cursor:pointer;font-size:16px}
+.btn-more svg{transition:transform .3s ease}
+.btn-more[aria-expanded="true"] svg{transform:rotate(180deg)}
+.btn-more .count{color:var(--muted);font-weight:500}
+@media (max-width:860px){
+  .project,.project:nth-child(even){grid-template-columns:1fr}
+  .project:nth-child(even) .shot{order:0;border-left:0}
+  .shot{min-height:0;aspect-ratio:16/10;border-right:0;border-bottom:1px solid var(--line)}
+  .project:nth-child(even) .shot{border-bottom:1px solid var(--line)}
+  .project .body{padding:22px 22px 24px}
+}
 
 /* Stack */
 .stack{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
@@ -166,7 +184,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
 /* Reveal */
 .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
 .reveal.in{opacity:1;transform:none}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}.project,.btn{transition:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}.project,.btn,.shot img,.btn-more svg{transition:none!important}.projects-more .project{opacity:1;transform:none}}
 </style>
 </head>
 <body>
@@ -292,72 +310,89 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
         <p data-i18n="proj_p">Una selección de proyectos personales y académicos, con el código disponible en GitHub.</p>
       </div>
       <div class="projects">
-        <article class="project featured reveal">
+        <article class="project reveal" style="--i:0">
           <div class="shot"><img src="img/agenda-clinica.webp" width="1200" height="667" alt="Panel de Agenda Clínica con los turnos del día" loading="lazy"></div>
           <div class="body">
             <div><span class="tag" data-i18n="p0tag">Proyecto en React</span><h3>Agenda Clínica</h3></div>
             <p data-i18n="p0d">Sistema de turnos para consultorios médicos: panel con métricas del día, agenda con filtros, fichas de pacientes con historial y validaciones de negocio, como turnos superpuestos, horario de atención y horarios libres sugeridos.</p>
             <ul class="chips"><li>React</li><li>React Router</li><li>Tailwind CSS</li><li>Vite</li><li>Vitest</li></ul>
-            <div class="links"><a href="https://agenda-clinica-kappa.vercel.app/" target="_blank" rel="noopener"><span data-i18n="demo">Ver demo</span> →</a><a href="https://github.com/Benja391/Agenda-Clinica" target="_blank" rel="noopener"><span data-i18n="code">Ver código</span> →</a></div>
+            <div class="links"><a class="btn-demo" href="https://agenda-clinica-kappa.vercel.app/" target="_blank" rel="noopener"><span data-i18n="demo">Ver demo</span> ↗</a><a href="https://github.com/Benja391/Agenda-Clinica" target="_blank" rel="noopener"><span data-i18n="code">Ver código</span> →</a></div>
           </div>
         </article>
-        <article class="project featured reveal">
+        <article class="project reveal" style="--i:1">
           <div class="shot"><img src="img/app-gastos.webp" width="1200" height="667" alt="Pantalla de inicio de App Gastos" loading="lazy"></div>
           <div class="body">
             <div><span class="tag" data-i18n="p1tag">Proyecto de tesis</span><h3>App Gastos</h3></div>
             <p data-i18n="p1d">Aplicación para gestionar finanzas personales, pensada para jóvenes que empiezan a vivir solos. Registro e inicio de sesión, carga de gastos e ingresos, presupuestos por categoría, gráficos y calendario de pagos, con datos en tiempo real.</p>
             <ul class="chips"><li>Vue.js</li><li>Tailwind CSS</li><li>Firebase Auth</li><li>Firestore</li><li>Vite</li></ul>
-            <div class="links"><a href="https://app-gastos-seven.vercel.app/" target="_blank" rel="noopener"><span data-i18n="demo">Ver demo</span> →</a><a href="https://github.com/Benja391/App-Gastos" target="_blank" rel="noopener"><span data-i18n="code">Ver código</span> →</a></div>
+            <div class="links"><a class="btn-demo" href="https://app-gastos-seven.vercel.app/" target="_blank" rel="noopener"><span data-i18n="demo">Ver demo</span> ↗</a><a href="https://github.com/Benja391/App-Gastos" target="_blank" rel="noopener"><span data-i18n="code">Ver código</span> →</a></div>
           </div>
         </article>
-        <article class="project reveal">
+        <article class="project reveal" style="--i:2">
           <div class="shot"><img src="img/red-social.webp" width="1200" height="462" alt="Pantalla de publicaciones de la red social" loading="lazy"></div>
           <div class="body">
-            <h3 data-i18n="p2t">Red Social</h3>
+            <div><span class="tag" data-i18n="p2tag">Tiempo real</span><h3 data-i18n="p2t">Red Social</h3></div>
             <p data-i18n="p2d">Red social con registro, inicio de sesión, perfiles, publicaciones y un chat público en tiempo real.</p>
             <ul class="chips"><li>Vue.js</li><li>Tailwind CSS</li><li>Firebase</li></ul>
-            <div class="links"><a href="https://red-social-chat.netlify.app" target="_blank" rel="noopener"><span data-i18n="demo">Ver demo</span> →</a><a href="https://github.com/Benja391/Red-Social" target="_blank" rel="noopener"><span data-i18n="code">Ver código</span> →</a></div>
+            <div class="links"><a class="btn-demo" href="https://red-social-tan.vercel.app/" target="_blank" rel="noopener"><span data-i18n="demo">Ver demo</span> ↗</a><a href="https://github.com/Benja391/Red-Social" target="_blank" rel="noopener"><span data-i18n="code">Ver código</span> →</a></div>
           </div>
         </article>
-        <article class="project reveal">
-          <div class="shot"><img src="img/carrito.webp" width="1200" height="461" alt="Carrito de compras con lista de productos" loading="lazy"></div>
-          <div class="body">
-            <h3 data-i18n="p3t">Carrito de Compras</h3>
-            <p data-i18n="p3d">Tienda con productos cargados desde JSON, carrito dinámico y cálculo del total en tiempo real.</p>
-            <ul class="chips"><li>Vue.js 3</li><li>JavaScript</li><li>CSS3</li></ul>
-            <div class="links"><a href="https://github.com/Benja391/Carrito-de-Compras" target="_blank" rel="noopener"><span data-i18n="code">Ver código</span> →</a></div>
-          </div>
-        </article>
-        <article class="project reveal">
+        <article class="project reveal" style="--i:3">
           <div class="shot"><img src="img/pwa-pokemon.webp" width="1200" height="461" alt="Aplicación web progresiva con tarjetas de información" loading="lazy"></div>
           <div class="body">
-            <h3>Pokémon PWA</h3>
+            <div><span class="tag" data-i18n="p4tag">PWA</span><h3>Pokémon PWA</h3></div>
             <p data-i18n="p4d">Aplicación web progresiva, instalable en el celular, que consume una API pública y muestra la información en tarjetas.</p>
             <ul class="chips"><li>PWA</li><li>API REST</li><li>JavaScript</li><li>Bootstrap</li></ul>
-            <div class="links"><a href="https://pwa-pokemon-two.vercel.app/" target="_blank" rel="noopener"><span data-i18n="demo">Ver demo</span> →</a><a href="https://github.com/Benja391/PWA-Pokemon" target="_blank" rel="noopener"><span data-i18n="code">Ver código</span> →</a></div>
+            <div class="links"><a class="btn-demo" href="https://pwa-pokemon-two.vercel.app/" target="_blank" rel="noopener"><span data-i18n="demo">Ver demo</span> ↗</a><a href="https://github.com/Benja391/PWA-Pokemon" target="_blank" rel="noopener"><span data-i18n="code">Ver código</span> →</a></div>
           </div>
         </article>
-        <article class="project reveal">
+      </div>
+      <div class="projects projects-more" id="mas-proyectos" hidden>
+        <article class="project" style="--i:0">
+          <div class="shot"><img src="img/carrito.webp" width="1200" height="461" alt="Carrito de compras con lista de productos" loading="lazy"></div>
+          <div class="body">
+            <div><span class="tag" data-i18n="p3tag">Vue 3</span><h3 data-i18n="p3t">Carrito de Compras</h3></div>
+            <p data-i18n="p3d">Tienda con productos cargados desde JSON, carrito dinámico y cálculo del total en tiempo real.</p>
+            <ul class="chips"><li>Vue.js 3</li><li>JavaScript</li><li>CSS3</li></ul>
+            <div class="links"><a class="btn-demo" href="https://carrito-de-compras-orcin.vercel.app/" target="_blank" rel="noopener"><span data-i18n="demo">Ver demo</span> ↗</a><a href="https://github.com/Benja391/Carrito-de-Compras" target="_blank" rel="noopener"><span data-i18n="code">Ver código</span> →</a></div>
+          </div>
+        </article>
+        <article class="project" style="--i:1">
           <div class="shot code" aria-hidden="true"><pre><b>GET</b> /api/cards
 <b>GET</b> /api/players/:tag
 → Express · Node.js
 → async render</pre></div>
           <div class="body">
-            <h3>Clash Royale App</h3>
+            <div><span class="tag" data-i18n="p5tag">Backend</span><h3>Clash Royale App</h3></div>
             <p data-i18n="p5d">Servidor en Node.js con Express y frontend que consume una API pública: buscador de jugadores y detalle de cartas.</p>
             <ul class="chips"><li>Node.js</li><li>Express</li><li>JavaScript</li><li>SASS</li></ul>
             <div class="links"><a href="https://github.com/Benja391/Clash-Royale-App" target="_blank" rel="noopener"><span data-i18n="code">Ver código</span> →</a></div>
           </div>
         </article>
-        <article class="project reveal">
+        <article class="project" style="--i:2">
           <div class="shot"><img src="img/gimnasio.webp" width="1200" height="461" alt="Landing page de un gimnasio" loading="lazy"></div>
           <div class="body">
-            <h3 data-i18n="p6t">Landing de Gimnasio</h3>
+            <div><span class="tag" data-i18n="p6tag">Landing page</span><h3 data-i18n="p6t">Landing de Gimnasio</h3></div>
             <p data-i18n="p6d">Landing page responsive con servicios, planes y proceso de inscripción.</p>
-            <ul class="chips"><li>HTML5</li><li>CSS3</li><li>JavaScript</li></ul>
-            <div class="links"><a href="https://github.com/Benja391/Landing-SmartFit-Gym" target="_blank" rel="noopener"><span data-i18n="code">Ver código</span> →</a></div>
+            <ul class="chips"><li>HTML5</li><li>CSS3</li><li>Bootstrap</li></ul>
+            <div class="links"><a class="btn-demo" href="https://landing-smartfit-gym.vercel.app/" target="_blank" rel="noopener"><span data-i18n="demo">Ver demo</span> ↗</a><a href="https://github.com/Benja391/Landing-SmartFit-Gym" target="_blank" rel="noopener"><span data-i18n="code">Ver código</span> →</a></div>
           </div>
         </article>
+        <article class="project" style="--i:3">
+          <div class="shot"><img src="img/rick-and-morty.webp" width="1200" height="674" alt="Landing page temática con personajes y temporadas" loading="lazy"></div>
+          <div class="body">
+            <div><span class="tag" data-i18n="p7tag">Landing page</span><h3 data-i18n="p7t">Landing Rick and Morty</h3></div>
+            <p data-i18n="p7d">Landing page temática con galería de personajes, capítulos destacados, videos y formulario de contacto.</p>
+            <ul class="chips"><li>HTML5</li><li>CSS3</li></ul>
+            <div class="links"><a class="btn-demo" href="https://rick-and-morty-sigma-one.vercel.app/" target="_blank" rel="noopener"><span data-i18n="demo">Ver demo</span> ↗</a><a href="https://github.com/Benja391/Rick-and-Morty" target="_blank" rel="noopener"><span data-i18n="code">Ver código</span> →</a></div>
+          </div>
+        </article>
+      </div>
+      <div class="more-wrap">
+        <button class="btn btn-ghost btn-more" id="btn-mas" type="button" aria-expanded="false" aria-controls="mas-proyectos">
+          <span data-i18n="more">Ver más proyectos</span> <span class="count">(4)</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
       </div>
     </div>
   </section>
@@ -443,12 +478,14 @@ const EN = {
   p4d:"Installable progressive web app that consumes a public API and displays the data in cards.",
   p5d:"Node.js and Express server with a frontend that consumes a public API: player search and card details.",
   p6t:"Gym Landing Page", p6d:"Responsive landing page with services, plans and a sign-up flow.",
+  p2tag:"Real time", p4tag:"PWA", p3tag:"Vue 3", p5tag:"Backend", p6tag:"Landing page", p7tag:"Landing page", p7t:"Rick and Morty Landing", p7d:"Themed landing page with a character gallery, featured episodes, videos and a contact form.",
+  more:"See more projects", less:"See fewer projects",
   code:"View code", demo:"Live demo",
   stack_eye:"Stack", stack_h:"What I work with", st_data:"Data & cloud", st_auto:"Automation & AI", st_ai:"AI coding assistants", st_tools:"Tools", st_lang:"Languages", st_es:"Spanish (native)", st_en:"English B1-B2",
   c_eye:"Contact", c_h:"Let's talk", c_p:"I'm looking for a remote role and also take freelance projects. Write to me and I'll get back to you soon.",
   f_name:"Name", f_email:"Email", f_msg:"Message", f_send:"Send message", foot:"Built with HTML, CSS and JavaScript · Hosted on Netlify"
 };
-const ES = {};
+const ES = { less: 'Ver menos proyectos' };
 document.querySelectorAll('[data-i18n]').forEach(el => { ES[el.dataset.i18n] = el.innerHTML; });
 
 const store = { get(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }, set(k,v){ try{ localStorage.setItem(k,v); }catch(e){} } };
@@ -472,6 +509,26 @@ const savedTheme = store.get('theme'); if (savedTheme) root.dataset.theme = save
 document.getElementById('theme').addEventListener('click', () => {
   const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
   root.dataset.theme = dark ? 'light' : 'dark'; store.set('theme', root.dataset.theme);
+});
+
+const masBtn = document.getElementById('btn-mas');
+const masGrid = document.getElementById('mas-proyectos');
+masBtn.addEventListener('click', () => {
+  const abrir = masBtn.getAttribute('aria-expanded') !== 'true';
+  masBtn.setAttribute('aria-expanded', String(abrir));
+  const dict = document.documentElement.lang === 'en' ? EN : ES;
+  const etiqueta = masBtn.querySelector('[data-i18n]');
+  etiqueta.dataset.i18n = abrir ? 'less' : 'more';
+  etiqueta.textContent = dict[etiqueta.dataset.i18n] || (abrir ? 'Ver menos proyectos' : 'Ver más proyectos');
+  masBtn.querySelector('.count').hidden = abrir;
+  if (abrir) {
+    masGrid.hidden = false;
+    requestAnimationFrame(() => requestAnimationFrame(() => masGrid.classList.add('open')));
+  } else {
+    masGrid.classList.remove('open');
+    masGrid.hidden = true;
+    document.getElementById('proyectos').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  }
 });
 
 document.getElementById('form-next').value = location.origin + '/gracias.html';
