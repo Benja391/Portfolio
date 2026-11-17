@@ -63,7 +63,7 @@ header.nav{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--b
 .btn svg{width:18px;height:18px}
 .btn-primary{background:var(--accent);color:var(--accent-ink)}
 .btn-primary:hover{transform:translateY(-1px)}
-.btn-ghost{border-color:var(--line);background:var(--surface)}
+.btn-ghost{border-color:var(--line);background:var(--surface);color:var(--text)}
 .btn-ghost:hover{border-color:var(--accent)}
 
 /* Hero */
@@ -108,7 +108,14 @@ section{padding:56px 0}
 
 /* Experience */
 .timeline{display:grid;gap:16px}
-.job{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px 26px;display:grid;grid-template-columns:200px 1fr;gap:24px}
+.job{position:relative;overflow:hidden;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px 26px;display:grid;grid-template-columns:200px 1fr;gap:24px;transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease}
+.job::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--accent);transform:scaleY(0);transform-origin:top;transition:transform .45s ease}
+.job:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:color-mix(in srgb,var(--accent) 35%,var(--line))}
+.job:hover::before,.job:focus-within::before{transform:scaleY(1)}
+.job .chips li{transition:background .25s ease,color .25s ease,transform .25s ease}
+.job:hover .chips li{background:var(--accent);color:var(--accent-ink)}
+.job:hover .chips li:nth-child(2){transition-delay:.04s}.job:hover .chips li:nth-child(3){transition-delay:.08s}.job:hover .chips li:nth-child(4){transition-delay:.12s}.job:hover .chips li:nth-child(5){transition-delay:.16s}
+.timeline .job.reveal:nth-child(2){transition-delay:.15s}
 .job .when{color:var(--muted);font-size:14px;font-weight:500}
 .job .when strong{display:block;color:var(--text);font-family:var(--font-head);font-size:18px;margin-bottom:2px}
 .job h3{font-size:20px;margin-bottom:10px}
@@ -140,11 +147,13 @@ section{padding:56px 0}
 .project .links .btn-demo{background:var(--accent);color:var(--accent-ink);padding:0 16px;border-radius:10px}
 .project .links .btn-demo:hover{text-decoration:none;filter:brightness(1.08)}
 .projects-more{margin-top:20px}
+.projects-more[hidden]{display:none}
 .projects-more .project{opacity:0;transform:translateY(24px)}
 .projects-more.open .project{opacity:1;transform:none;transition:opacity .5s ease calc(var(--i) * 110ms),transform .5s ease calc(var(--i) * 110ms),box-shadow .25s ease,border-color .25s ease}
 .projects-more.open .project:hover{transform:translateY(-4px);transition-delay:0s}
-.more-wrap{display:flex;justify-content:center;margin-top:28px}
-.btn-more{cursor:pointer;font-size:16px}
+.more-wrap{display:flex;justify-content:center;margin-top:24px}
+.btn-more{cursor:pointer;font-size:16px;font-family:inherit}
+.btn-more:hover{background:var(--accent-soft)}
 .btn-more svg{transition:transform .3s ease}
 .btn-more[aria-expanded="true"] svg{transform:rotate(180deg)}
 .btn-more .count{color:var(--muted);font-weight:500}
@@ -184,7 +193,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
 /* Reveal */
 .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
 .reveal.in{opacity:1;transform:none}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}.project,.btn,.shot img,.btn-more svg{transition:none!important}.projects-more .project{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}.project,.btn,.shot img,.btn-more svg,.job,.job::before,.job .chips li{transition:none!important}.projects-more .project{opacity:1;transform:none}}
 </style>
 </head>
 <body>
