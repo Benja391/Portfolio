@@ -26,7 +26,7 @@ Mi portfolio personal como desarrollador Full Stack: experiencia, proyectos dest
 
 ## ⚙️ Cómo verlo
 
-Abrí `index.html` en el navegador o publicá la carpeta en cualquier hosting estático (Vercel, Netlify, GitHub Pages).
+Abrí `index.html` en el navegador o publicá la carpeta en cualquier hosting estático (por ejemplo, Vercel).
 
 ## 👤 Autor
 
