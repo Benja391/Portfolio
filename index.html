@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Benjamín Bosch · Desarrollador Full Stack</title>
+<meta name="description" content="Benjamín Bosch, desarrollador Full Stack en Necochea, Argentina. React, Vue.js, Node.js, Laravel, SQL y automatización. Disponible para trabajo remoto.">
+<meta property="og:title" content="Benjamín Bosch · Desarrollador Full Stack">
+<meta property="og:description" content="Aplicaciones web, software a medida y automatizaciones. Disponible para trabajo remoto.">
+<meta property="og:image" content="img/app-gastos.webp">
+<link rel="icon" href="img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f7f4; --surface:#ffffff; --surface-2:#eef0ea; --text:#15171a; --muted:#565b63;
+  --line:#dfe1da; --accent:#2f5bea; --accent-ink:#ffffff; --accent-soft:#e3e9fd; --ok:#1f8a4c;
+  --radius:16px; --shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.06);
+  --font:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --font-head:"Space Grotesk","Inter",system-ui,sans-serif;
+  --max:1120px;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1115; --surface:#171a20; --surface-2:#1e222a; --text:#eef0f3; --muted:#a3a9b3;
+    --line:#2a2f38; --accent:#7f9cff; --accent-ink:#0f1115; --accent-soft:#1f2740; --ok:#4fd18b;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f1115; --surface:#171a20; --surface-2:#1e222a; --text:#eef0f3; --muted:#a3a9b3;
+  --line:#2a2f38; --accent:#7f9cff; --accent-ink:#0f1115; --accent-soft:#1f2740; --ok:#4fd18b;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 var(--font);-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit}
+h1,h2,h3{font-family:var(--font-head);line-height:1.15;margin:0}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+.skip{position:absolute;left:-999px;top:8px;background:var(--accent);color:var(--accent-ink);padding:10px 14px;border-radius:8px;z-index:100}
+.skip:focus{left:8px}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:6px}
+
+/* Nav */
+header.nav{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:16px;height:64px}
+.logo{font-family:var(--font-head);font-weight:700;text-decoration:none;font-size:18px;letter-spacing:-.02em}
+.logo span{color:var(--accent)}
+.nav ul{display:flex;gap:4px;list-style:none;margin:0 0 0 auto;padding:0}
+.nav ul a{display:block;padding:8px 12px;border-radius:8px;text-decoration:none;color:var(--muted);font-weight:500;font-size:15px}
+.nav ul a:hover{color:var(--text);background:var(--surface-2)}
+.nav-tools{display:flex;gap:6px;align-items:center}
+.icon-btn{min-width:40px;height:40px;padding:0 10px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--text);font:600 13px var(--font);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.icon-btn:hover{border-color:var(--accent)}
+.icon-btn svg{width:18px;height:18px}
+@media (max-width:820px){.nav ul{display:none}.nav-tools{margin-left:auto}}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:0 20px;border-radius:12px;font-weight:600;text-decoration:none;border:1px solid transparent;transition:transform .15s ease,background .15s ease}
+.btn svg{width:18px;height:18px}
+.btn-primary{background:var(--accent);color:var(--accent-ink)}
+.btn-primary:hover{transform:translateY(-1px)}
+.btn-ghost{border-color:var(--line);background:var(--surface)}
+.btn-ghost:hover{border-color:var(--accent)}
+
+/* Hero */
+.hero{padding:72px 0 56px}
+.hero-grid{display:grid;grid-template-columns:1.4fr .9fr;gap:48px;align-items:center}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:var(--surface);border:1px solid var(--line);font-size:14px;font-weight:500;color:var(--muted)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 4px color-mix(in srgb,var(--ok) 25%,transparent)}
+.hero h1{font-size:clamp(40px,6vw,64px);letter-spacing:-.03em;margin:20px 0 8px}
+.hero .role{font-family:var(--font-head);font-size:clamp(20px,2.6vw,26px);color:var(--accent);font-weight:600;margin:0 0 18px}
+.hero .lead{font-size:18px;color:var(--muted);max-width:56ch;margin:0 0 28px}
+.cta{display:flex;flex-wrap:wrap;gap:12px}
+.meta{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:28px;color:var(--muted);font-size:15px}
+.meta span{display:inline-flex;align-items:center;gap:6px}
+.meta svg{width:16px;height:16px}
+.profile-card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:24px;box-shadow:var(--shadow)}
+.profile-top{display:flex;gap:16px;align-items:center;margin-bottom:20px}
+.profile-top img{width:72px;height:72px;border-radius:50%;object-fit:cover;border:3px solid var(--accent-soft)}
+.profile-top strong{display:block;font-family:var(--font-head);font-size:18px}
+.profile-top small{color:var(--muted);font-size:14px}
+.facts{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.facts li{display:flex;justify-content:space-between;gap:12px;padding:12px 14px;background:var(--surface-2);border-radius:12px;font-size:14px}
+.facts li span:first-child{color:var(--muted)}
+.facts li span:last-child{font-weight:600;text-align:right}
+@media (max-width:860px){.hero-grid{grid-template-columns:1fr}.hero{padding:48px 0 32px}}
+
+/* Sections */
+section{padding:56px 0}
+.sec-head{margin-bottom:32px;max-width:640px}
+.eyebrow{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 8px}
+.sec-head h2{font-size:clamp(28px,4vw,38px);letter-spacing:-.02em}
+.sec-head p{color:var(--muted);margin:12px 0 0}
+
+/* About */
+.about{display:grid;grid-template-columns:1.3fr 1fr;gap:40px}
+.about p{margin:0 0 16px;color:var(--muted);font-size:17px}
+.about p strong{color:var(--text)}
+.focus{display:grid;gap:12px}
+.focus div{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.focus h3{font-size:17px;margin-bottom:4px}
+.focus p{font-size:15px;margin:0}
+@media (max-width:860px){.about{grid-template-columns:1fr}}
+
+/* Experience */
+.timeline{display:grid;gap:16px}
+.job{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px 26px;display:grid;grid-template-columns:200px 1fr;gap:24px}
+.job .when{color:var(--muted);font-size:14px;font-weight:500}
+.job .when strong{display:block;color:var(--text);font-family:var(--font-head);font-size:18px;margin-bottom:2px}
+.job h3{font-size:20px;margin-bottom:10px}
+.job ul{margin:0 0 14px;padding-left:18px;color:var(--muted)}
+.job li{margin-bottom:6px}
+@media (max-width:700px){.job{grid-template-columns:1fr;gap:8px}}
+.chips{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:0;padding:0}
+.chips li{font-size:13px;font-weight:500;padding:4px 10px;border-radius:999px;background:var(--accent-soft);color:var(--text)}
+
+/* Projects */
+.projects{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.project{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;transition:transform .2s ease,box-shadow .2s ease}
+.project:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.project.featured{grid-column:1/-1;display:grid;grid-template-columns:1.25fr 1fr}
+.shot{aspect-ratio:2/1;background:var(--surface-2);overflow:hidden;border-bottom:1px solid var(--line)}
+.featured .shot{aspect-ratio:auto;border-bottom:0;border-right:1px solid var(--line)}
+.shot img{width:100%;height:100%;object-fit:cover;object-position:top}
+.shot.code{display:flex;align-items:center;justify-content:center;font:600 14px/1.7 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--muted);padding:24px}
+.shot.code pre{margin:0;white-space:pre-wrap}
+.shot.code b{color:var(--accent);font-weight:600}
+.project .body{padding:22px 24px 24px;display:flex;flex-direction:column;gap:12px;flex:1}
+.project h3{font-size:21px}
+.tag{display:inline-block;font-size:12px;font-weight:600;color:var(--ok);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.project p{margin:0;color:var(--muted)}
+.project .links{display:flex;gap:10px;margin-top:auto;padding-top:6px;flex-wrap:wrap}
+.project .links a{font-weight:600;font-size:15px;color:var(--accent);text-decoration:none;display:inline-flex;align-items:center;gap:6px;min-height:32px}
+.project .links a:hover{text-decoration:underline}
+@media (max-width:860px){.projects{grid-template-columns:1fr}.project.featured{grid-template-columns:1fr}.featured .shot{border-right:0;border-bottom:1px solid var(--line);aspect-ratio:16/10}}
+
+/* Stack */
+.stack{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.stack div{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px}
+.stack h3{font-size:17px;margin-bottom:12px}
+@media (max-width:860px){.stack{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.stack{grid-template-columns:1fr}}
+
+/* Contact */
+.contact{display:grid;grid-template-columns:1fr 1.2fr;gap:32px;background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:36px}
+.contact-links{display:grid;gap:10px;margin-top:24px}
+.contact-links a{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;background:var(--surface-2);text-decoration:none;font-weight:500}
+.contact-links a:hover{outline:1px solid var(--accent)}
+.contact-links svg{width:20px;height:20px;color:var(--accent);flex:none}
+form{display:grid;gap:14px}
+label{font-size:14px;font-weight:600;display:block;margin-bottom:6px}
+input,textarea{width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--text);font:16px var(--font)}
+input:focus,textarea:focus{outline:2px solid var(--accent);border-color:transparent}
+textarea{min-height:130px;resize:vertical}
+.hp{position:absolute;left:-9999px}
+form .btn{justify-self:start;border:0;cursor:pointer;font-size:16px}
+@media (max-width:860px){.contact{grid-template-columns:1fr;padding:24px}}
+
+footer{padding:36px 0 48px;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;border-top:1px solid var(--line);padding-top:24px}
+
+/* Reveal */
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}.project,.btn{transition:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main" data-i18n="skip">Saltar al contenido</a>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#top">benja<span>.</span>dev</a>
+    <nav aria-label="Principal">
+      <ul>
+        <li><a href="#sobre-mi" data-i18n="nav_about">Sobre mí</a></li>
+        <li><a href="#experiencia" data-i18n="nav_exp">Experiencia</a></li>
+        <li><a href="#proyectos" data-i18n="nav_proj">Proyectos</a></li>
+        <li><a href="#stack" data-i18n="nav_stack">Tecnologías</a></li>
+        <li><a href="#contacto" data-i18n="nav_contact">Contacto</a></li>
+      </ul>
+    </nav>
+    <div class="nav-tools">
+      <button class="icon-btn" id="lang" type="button" aria-label="Switch to English">EN</button>
+      <button class="icon-btn" id="theme" type="button" aria-label="Cambiar tema">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" id="top">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="badge"><span class="dot" aria-hidden="true"></span><span data-i18n="badge">Disponible para trabajo remoto</span></span>
+        <h1>Benjamín Bosch</h1>
+        <p class="role" data-i18n="role">Desarrollador Full Stack</p>
+        <p class="lead" data-i18n="lead">Construyo aplicaciones web y software a medida: interfaces cuidadas, APIs y automatizaciones que ahorran tiempo. Hoy desarrollo MedicalDB, un software médico en producción.</p>
+        <div class="cta">
+          <a class="btn btn-primary" href="#proyectos" data-i18n="cta_proj">Ver proyectos</a>
+          <a class="btn btn-ghost" id="cv-link" href="cv/Benjamin_Bosch_CV_ES.pdf" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 21h16"/></svg>
+            <span data-i18n="cta_cv">Descargar CV</span>
+          </a>
+        </div>
+        <div class="meta">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7-6.2-7-12a7 7 0 0114 0c0 5.8-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>Necochea, Argentina</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg><span data-i18n="langs">Español nativo · Inglés B1-B2</span></span>
+        </div>
+      </div>
+      <aside class="profile-card" aria-label="Resumen">
+        <div class="profile-top">
+          <img src="img/foto.webp" width="124" height="124" alt="Foto de Benjamín Bosch">
+          <div><strong>Benjamín Bosch</strong><small data-i18n="card_sub">Full Stack · React · Node.js</small></div>
+        </div>
+        <ul class="facts">
+          <li><span data-i18n="f1k">Trabajo actual</span><span>JotaTec · MedicalDB</span></li>
+          <li><span data-i18n="f2k">Formación</span><span data-i18n="f2v">Técnico en Diseño y Programación Web</span></li>
+          <li><span data-i18n="f3k">Modalidad</span><span data-i18n="f3v">100% remoto</span></li>
+          <li><span data-i18n="f4k">Enfoque</span><span data-i18n="f4v">Web, automatización e IA</span></li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <section id="sobre-mi">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow" data-i18n="about_eye">Sobre mí</p>
+        <h2 data-i18n="about_h">Código que resuelve problemas reales</h2>
+      </div>
+      <div class="about">
+        <div class="reveal">
+          <p data-i18n="about_p1">Soy <strong>desarrollador Full Stack</strong> y Técnico en Diseño y Programación Web (Escuela Da Vinci, 2025). Desde mayo de 2025 trabajo en <strong>JotaTec</strong>, donde desarrollo MedicalDB, un software para clínicas que gestiona pacientes, historias clínicas y estudios cardiológicos conectados a equipos médicos.</p>
+          <p data-i18n="about_p2">Antes de programar trabajé tres años con <strong>datos y automatización de procesos</strong>, así que entiendo bien el lado del negocio: lo que importa no es solo que el código funcione, sino que ahorre tiempo y evite errores.</p>
+          <p data-i18n="about_p3">Trabajo con autonomía, organizo mis entregas y uso <strong>herramientas de IA</strong> en mi día a día para desarrollar más rápido.</p>
+        </div>
+        <div class="focus reveal">
+          <div><h3 data-i18n="fo1h">Interfaces claras</h3><p data-i18n="fo1p">De Figma a código, con componentes reutilizables y diseño responsive.</p></div>
+          <div><h3 data-i18n="fo2h">Aplicaciones completas</h3><p data-i18n="fo2p">Frontend, APIs, bases de datos y autenticación, de punta a punta.</p></div>
+          <div><h3 data-i18n="fo3h">Automatización</h3><p data-i18n="fo3p">Flujos con n8n y Zapier que reemplazan tareas manuales.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experiencia">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow" data-i18n="exp_eye">Experiencia</p>
+        <h2 data-i18n="exp_h">Dónde trabajé</h2>
+      </div>
+      <div class="timeline">
+        <article class="job reveal">
+          <div class="when"><strong>JotaTec</strong><span data-i18n="j1d">May 2025 – Actualidad</span></div>
+          <div>
+            <h3 data-i18n="j1r">Desarrollador de Software · MedicalDB</h3>
+            <ul>
+              <li data-i18n="j1b1">Desarrollo de MedicalDB, software médico en producción para gestión de pacientes, historias clínicas y estudios cardiológicos (ECG, Holter, MAPA, ergometría).</li>
+              <li data-i18n="j1b2">Módulos completos a partir de diseños en Figma, incluido el monitoreo en vivo de ECG y ergometría.</li>
+              <li data-i18n="j1b3">Sistema de componentes reutilizables (botones, chips de estado, modales, diálogos) usado en todo el producto.</li>
+              <li data-i18n="j1b4">Integración de la interfaz con el backend en una arquitectura por capas, junto al equipo de backend y hardware.</li>
+            </ul>
+            <ul class="chips" aria-label="Tecnologías"><li>VB.NET</li><li>WPF / XAML</li><li>Material Design</li><li>Figma</li><li>Git</li></ul>
+          </div>
+        </article>
+        <article class="job reveal">
+          <div class="when"><strong>Pimeneton</strong><span>2022 – 2025</span></div>
+          <div>
+            <h3 data-i18n="j2r">Procesamiento de Datos Comerciales</h3>
+            <ul>
+              <li data-i18n="j2b1">Automatización de procesos de carga de datos en plataformas digitales (Rappi, PedidosYa, Uber Eats).</li>
+              <li data-i18n="j2b2">Reportes de rendimiento con SQL y Google Data Studio para la toma de decisiones.</li>
+            </ul>
+            <ul class="chips" aria-label="Tecnologías"><li>SQL</li><li>Google Data Studio</li><li>Excel</li></ul>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="proyectos">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow" data-i18n="proj_eye">Proyectos</p>
+        <h2 data-i18n="proj_h">Lo que construí</h2>
+        <p data-i18n="proj_p">Una selección de proyectos personales y académicos, con el código disponible en GitHub.</p>
+      </div>
+      <div class="projects">
+        <article class="project featured reveal">
+          <div class="shot"><img src="img/agenda-clinica.webp" width="1200" height="667" alt="Panel de Agenda Clínica con los turnos del día" loading="lazy"></div>
+          <div class="body">
+            <div><span class="tag" data-i18n="p0tag">Proyecto en React</span><h3>Agenda Clínica</h3></div>
+            <p data-i18n="p0d">Sistema de turnos para consultorios médicos: panel con métricas del día, agenda con filtros, fichas de pacientes con historial y validaciones de negocio, como turnos superpuestos, horario de atención y horarios libres sugeridos.</p>
+            <ul class="chips"><li>React</li><li>React Router</li><li>Tailwind CSS</li><li>Vite</li><li>Vitest</li></ul>
+            <div class="links"><a href="https://agenda-clinica-kappa.vercel.app/" target="_blank" rel="noopener"><span data-i18n="demo">Ver demo</span> →</a><a href="https://github.com/Benja391/Agenda-Clinica" target="_blank" rel="noopener"><span data-i18n="code">Ver código</span> →</a></div>
+          </div>
+        </article>
+        <article class="project featured reveal">
+          <div class="shot"><img src="img/app-gastos.webp" width="1200" height="667" alt="Pantalla de inicio de App Gastos" loading="lazy"></div>
+          <div class="body">
+            <div><span class="tag" data-i18n="p1tag">Proyecto de tesis</span><h3>App Gastos</h3></div>
+            <p data-i18n="p1d">Aplicación para gestionar finanzas personales, pensada para jóvenes que empiezan a vivir solos. Registro e inicio de sesión, carga de gastos e ingresos, presupuestos por categoría, gráficos y calendario de pagos, con datos en tiempo real.</p>
+            <ul class="chips"><li>Vue.js</li><li>Tailwind CSS</li><li>Firebase Auth</li><li>Firestore</li><li>Vite</li></ul>
+            <div class="links"><a href="https://app-gastos-seven.vercel.app/" target="_blank" rel="noopener"><span data-i18n="demo">Ver demo</span> →</a><a href="https://github.com/Benja391/App-Gastos" target="_blank" rel="noopener"><span data-i18n="code">Ver código</span> →</a></div>
+          </div>
+        </article>
+        <article class="project reveal">
+          <div class="shot"><img src="img/red-social.webp" width="1200" height="462" alt="Pantalla de publicaciones de la red social" loading="lazy"></div>
+          <div class="body">
+            <h3 data-i18n="p2t">Red Social</h3>
+            <p data-i18n="p2d">Red social con registro, inicio de sesión, perfiles, publicaciones y un chat público en tiempo real.</p>
+            <ul class="chips"><li>Vue.js</li><li>Tailwind CSS</li><li>Firebase</li></ul>
+            <div class="links"><a href="https://red-social-chat.netlify.app" target="_blank" rel="noopener"><span data-i18n="demo">Ver demo</span> →</a><a href="https://github.com/Benja391/Red-Social" target="_blank" rel="noopener"><span data-i18n="code">Ver código</span> →</a></div>
+          </div>
+        </article>
+        <article class="project reveal">
+          <div class="shot"><img src="img/carrito.webp" width="1200" height="461" alt="Carrito de compras con lista de productos" loading="lazy"></div>
+          <div class="body">
+            <h3 data-i18n="p3t">Carrito de Compras</h3>
+            <p data-i18n="p3d">Tienda con productos cargados desde JSON, carrito dinámico y cálculo del total en tiempo real.</p>
+            <ul class="chips"><li>Vue.js 3</li><li>JavaScript</li><li>CSS3</li></ul>
+            <div class="links"><a href="https://github.com/Benja391/Carrito-de-Compras" target="_blank" rel="noopener"><span data-i18n="code">Ver código</span> →</a></div>
+          </div>
+        </article>
+        <article class="project reveal">
+          <div class="shot"><img src="img/pwa-pokemon.webp" width="1200" height="461" alt="Aplicación web progresiva con tarjetas de información" loading="lazy"></div>
+          <div class="body">
+            <h3>Pokémon PWA</h3>
+            <p data-i18n="p4d">Aplicación web progresiva, instalable en el celular, que consume una API pública y muestra la información en tarjetas.</p>
+            <ul class="chips"><li>PWA</li><li>API REST</li><li>JavaScript</li><li>Bootstrap</li></ul>
+            <div class="links"><a href="https://pwa-pokemon-two.vercel.app/" target="_blank" rel="noopener"><span data-i18n="demo">Ver demo</span> →</a><a href="https://github.com/Benja391/PWA-Pokemon" target="_blank" rel="noopener"><span data-i18n="code">Ver código</span> →</a></div>
+          </div>
+        </article>
+        <article class="project reveal">
+          <div class="shot code" aria-hidden="true"><pre><b>GET</b> /api/cards
+<b>GET</b> /api/players/:tag
+→ Express · Node.js
+→ async render</pre></div>
+          <div class="body">
+            <h3>Clash Royale App</h3>
+            <p data-i18n="p5d">Servidor en Node.js con Express y frontend que consume una API pública: buscador de jugadores y detalle de cartas.</p>
+            <ul class="chips"><li>Node.js</li><li>Express</li><li>JavaScript</li><li>SASS</li></ul>
+            <div class="links"><a href="https://github.com/Benja391/Clash-Royale-App" target="_blank" rel="noopener"><span data-i18n="code">Ver código</span> →</a></div>
+          </div>
+        </article>
+        <article class="project reveal">
+          <div class="shot"><img src="img/gimnasio.webp" width="1200" height="461" alt="Landing page de un gimnasio" loading="lazy"></div>
+          <div class="body">
+            <h3 data-i18n="p6t">Landing de Gimnasio</h3>
+            <p data-i18n="p6d">Landing page responsive con servicios, planes y proceso de inscripción.</p>
+            <ul class="chips"><li>HTML5</li><li>CSS3</li><li>JavaScript</li></ul>
+            <div class="links"><a href="https://github.com/Benja391/Landing-SmartFit-Gym" target="_blank" rel="noopener"><span data-i18n="code">Ver código</span> →</a></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="stack">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow" data-i18n="stack_eye">Tecnologías</p>
+        <h2 data-i18n="stack_h">Con qué trabajo</h2>
+      </div>
+      <div class="stack">
+        <div class="reveal"><h3>Frontend</h3><ul class="chips"><li>JavaScript ES6+</li><li>React</li><li>Vue.js</li><li>HTML5</li><li>CSS3</li><li>SASS</li><li>Tailwind CSS</li><li>Bootstrap</li><li>PWA</li></ul></div>
+        <div class="reveal"><h3>Backend</h3><ul class="chips"><li>Node.js</li><li>Express</li><li>PHP</li><li>Laravel</li><li>APIs REST</li><li>VB.NET</li></ul></div>
+        <div class="reveal"><h3 data-i18n="st_data">Datos y cloud</h3><ul class="chips"><li>SQL</li><li>MySQL</li><li>MongoDB</li><li>Firebase</li><li>Vercel</li><li>Netlify</li></ul></div>
+        <div class="reveal"><h3 data-i18n="st_auto">Automatización e IA</h3><ul class="chips"><li>n8n</li><li>Zapier</li><li data-i18n="st_ai">Agentes de código con IA</li></ul></div>
+        <div class="reveal"><h3 data-i18n="st_tools">Herramientas</h3><ul class="chips"><li>Git</li><li>GitHub</li><li>Vite</li><li>Figma</li><li>VS Code</li></ul></div>
+        <div class="reveal"><h3 data-i18n="st_lang">Idiomas</h3><ul class="chips"><li data-i18n="st_es">Español nativo</li><li data-i18n="st_en">Inglés B1-B2</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto">
+    <div class="wrap">
+      <div class="contact reveal">
+        <div>
+          <p class="eyebrow" data-i18n="c_eye">Contacto</p>
+          <h2 data-i18n="c_h">¿Hablamos?</h2>
+          <p style="color:var(--muted);margin:12px 0 0" data-i18n="c_p">Estoy buscando un puesto remoto y también tomo proyectos freelance. Escribime y te respondo a la brevedad.</p>
+          <div class="contact-links">
+            <a href="mailto:benjabosch5@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>benjabosch5@gmail.com</a>
+            <a href="https://wa.me/5492262633574" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12a9 9 0 01-13.3 7.9L3 21l1.2-4.5A9 9 0 1121 12z"/></svg>WhatsApp · +54 9 2262 63-3574</a>
+            <a href="https://www.linkedin.com/in/benjamin-bosch-/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 10v7M8 7v.01M12 17v-4a2 2 0 014 0v4M12 10v7"/></svg>LinkedIn</a>
+            <a href="https://github.com/Benja391" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3M14 5l-4 14"/></svg>GitHub</a>
+          </div>
+        </div>
+        <form name="contacto" method="POST" action="https://formsubmit.co/benjabosch5@gmail.com">
+          <input type="hidden" name="_subject" value="Nuevo mensaje desde el portfolio">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_next" id="form-next" value="">
+          <p class="hp"><label>No completar <input name="_honey" tabindex="-1" autocomplete="off"></label></p>
+          <div><label for="nombre" data-i18n="f_name">Nombre</label><input id="nombre" name="nombre" autocomplete="name" required></div>
+          <div><label for="email" data-i18n="f_email">Email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
+          <div><label for="mensaje" data-i18n="f_msg">Mensaje</label><textarea id="mensaje" name="mensaje" required></textarea></div>
+          <button class="btn btn-primary" type="submit" data-i18n="f_send">Enviar mensaje</button>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Benjamín Bosch</span>
+    <span data-i18n="foot">Hecho con HTML, CSS y JavaScript · Publicado en Netlify</span>
+  </div>
+</footer>
+
+<script>
+const EN = {
+  skip:"Skip to content", nav_about:"About", nav_exp:"Experience", nav_proj:"Projects", nav_stack:"Stack", nav_contact:"Contact",
+  badge:"Available for remote work", role:"Full Stack Developer",
+  lead:"I build web applications and custom software: polished interfaces, APIs and automations that save time. I currently develop MedicalDB, a medical software product in production.",
+  cta_proj:"See projects", cta_cv:"Download CV", langs:"Spanish (native) · English B1-B2",
+  card_sub:"Full Stack · React · Node.js", f1k:"Current role", f2k:"Education", f2v:"Web Design & Programming degree", f3k:"Work mode", f3v:"100% remote", f4k:"Focus", f4v:"Web, automation & AI",
+  about_eye:"About me", about_h:"Code that solves real problems",
+  about_p1:"I'm a <strong>Full Stack Developer</strong> with an associate degree in Web Design and Programming (Escuela Da Vinci, 2025). Since May 2025 I've worked at <strong>JotaTec</strong>, developing MedicalDB, software for clinics that manages patients, clinical records and cardiology studies connected to medical devices.",
+  about_p2:"Before coding, I spent three years working with <strong>data and process automation</strong>, so I understand the business side: code shouldn't just work, it should save time and prevent errors.",
+  about_p3:"I work autonomously, organize my own deliverables and use <strong>AI tools</strong> every day to build faster.",
+  fo1h:"Clear interfaces", fo1p:"From Figma to code, with reusable components and responsive design.",
+  fo2h:"End-to-end apps", fo2p:"Frontend, APIs, databases and authentication.",
+  fo3h:"Automation", fo3p:"n8n and Zapier workflows that replace manual tasks.",
+  exp_eye:"Experience", exp_h:"Where I've worked", j1d:"May 2025 – Present", j1r:"Software Developer · MedicalDB",
+  j1b1:"Development of MedicalDB, a medical software product in production for managing patients, clinical records and cardiology studies (ECG, Holter, ABPM, stress tests).",
+  j1b2:"Complete modules built from Figma designs, including live ECG and stress-test monitoring.",
+  j1b3:"Reusable component system (buttons, status chips, modals, dialogs) used across the whole product.",
+  j1b4:"UI integration with the backend in a layered architecture, together with the backend and hardware team.",
+  j2r:"Commercial Data Processor", j2b1:"Automated data-loading processes on delivery platforms (Rappi, PedidosYa, Uber Eats).", j2b2:"Performance reports with SQL and Google Data Studio to support decisions.",
+  proj_eye:"Projects", proj_h:"What I've built", proj_p:"A selection of personal and academic projects, with source code on GitHub.",
+  p0tag:"React project", p0d:"Appointment system for medical practices: daily dashboard, filterable agenda, patient records with history and business-rule validation, such as overlapping appointments, opening hours and suggested free slots.",
+  p1tag:"Graduation project", p1d:"Personal finance app for young people starting to live on their own. Sign-up and login, expense and income tracking, category budgets, charts and a payment calendar, with real-time data.",
+  p2t:"Social Network", p2d:"Social network with sign-up, login, profiles, posts and a real-time public chat.",
+  p3t:"Shopping Cart", p3d:"Store with products loaded from JSON, a dynamic cart and real-time totals.",
+  p4d:"Installable progressive web app that consumes a public API and displays the data in cards.",
+  p5d:"Node.js and Express server with a frontend that consumes a public API: player search and card details.",
+  p6t:"Gym Landing Page", p6d:"Responsive landing page with services, plans and a sign-up flow.",
+  code:"View code", demo:"Live demo",
+  stack_eye:"Stack", stack_h:"What I work with", st_data:"Data & cloud", st_auto:"Automation & AI", st_ai:"AI coding assistants", st_tools:"Tools", st_lang:"Languages", st_es:"Spanish (native)", st_en:"English B1-B2",
+  c_eye:"Contact", c_h:"Let's talk", c_p:"I'm looking for a remote role and also take freelance projects. Write to me and I'll get back to you soon.",
+  f_name:"Name", f_email:"Email", f_msg:"Message", f_send:"Send message", foot:"Built with HTML, CSS and JavaScript · Hosted on Netlify"
+};
+const ES = {};
+document.querySelectorAll('[data-i18n]').forEach(el => { ES[el.dataset.i18n] = el.innerHTML; });
+
+const store = { get(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }, set(k,v){ try{ localStorage.setItem(k,v); }catch(e){} } };
+const langBtn = document.getElementById('lang');
+function setLang(lang){
+  const dict = lang === 'en' ? EN : ES;
+  document.querySelectorAll('[data-i18n]').forEach(el => { const v = dict[el.dataset.i18n]; if (v) el.innerHTML = v; });
+  document.documentElement.lang = lang;
+  document.getElementById('cv-link').href = lang === 'en' ? 'cv/Benjamin_Bosch_CV_EN.pdf' : 'cv/Benjamin_Bosch_CV_ES.pdf';
+  langBtn.textContent = lang === 'en' ? 'ES' : 'EN';
+  langBtn.setAttribute('aria-label', lang === 'en' ? 'Cambiar a español' : 'Switch to English');
+  document.title = lang === 'en' ? 'Benjamín Bosch · Full Stack Developer' : 'Benjamín Bosch · Desarrollador Full Stack';
+  store.set('lang', lang);
+}
+const params = new URLSearchParams(location.search);
+setLang(params.get('lang') || store.get('lang') || 'es');
+langBtn.addEventListener('click', () => setLang(document.documentElement.lang === 'en' ? 'es' : 'en'));
+
+const root = document.documentElement;
+const savedTheme = store.get('theme'); if (savedTheme) root.dataset.theme = savedTheme;
+document.getElementById('theme').addEventListener('click', () => {
+  const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  root.dataset.theme = dark ? 'light' : 'dark'; store.set('theme', root.dataset.theme);
+});
+
+document.getElementById('form-next').value = location.origin + '/gracias.html';
+
+const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12 }) : null;
+document.querySelectorAll('.reveal').forEach(el => io ? io.observe(el) : el.classList.add('in'));
+</script>
+</body>
+</html>
